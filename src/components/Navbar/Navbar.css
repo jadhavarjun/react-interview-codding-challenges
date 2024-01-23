@@ -1,0 +1,84 @@
+@media only screen and (min-width: 765px) {
+  @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@500;600;800&family=Poppins:wght@400;500;800&family=Source+Code+Pro:wght@200;300;400;600;700;900&display=swap");
+
+  .navbar {
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 50px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .list-display {
+    display: flex;
+    gap: 30px;
+    text-decoration: none;
+  }
+
+  .list-display li {
+    list-style-type: none;
+  }
+
+  li a {
+    text-decoration: none;
+    font-family: "Open Sans", sans-serif;
+  }
+  .logo {
+    font-family: "Source Code Pro", monospace;
+    font-size: 25px;
+    font-weight: 800;
+    color: royalblue;
+  }
+  .hamburger {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  /* .lists {
+    display: none;
+  } */
+  .navbar {
+    height: 80px;
+    /* display: flex;
+    justify-content: space-between;
+    align-items: center; */
+    padding: 0px 50px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  }
+  .lists {
+    text-decoration: none;
+    margin: 0;
+    width: 205px;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 79px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    padding: 20px 0px 0px 30px;
+  }
+  .list-display {
+    display: none;
+  }
+  .lists li {
+    list-style-type: none;
+  }
+
+  li a {
+    text-decoration: none;
+    font-family: "Open Sans", sans-serif;
+  }
+  .logo {
+    font-family: "Source Code Pro", monospace;
+    font-size: 25px;
+    font-weight: 800;
+    color: royalblue;
+    padding-top: 25px;
+  }
+  .hamburger {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+  }
+}
