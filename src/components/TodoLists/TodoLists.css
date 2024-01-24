@@ -33,7 +33,8 @@
   margin-top: 5px;
 }
 
-.delete-icon-btn {
+.delete-icon-btn,
+.edit-icon-btn {
   border: none;
   background-color: transparent;
   cursor: pointer;

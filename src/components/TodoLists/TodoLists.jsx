@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MdOutlineDelete } from "react-icons/md";
+import { MdOutlineDelete, MdEdit } from "react-icons/md"; // Import MdEdit icon
 import "./TodoLists.css";
 
 function TodoLists() {
@@ -8,11 +8,16 @@ function TodoLists() {
     : [];
   const [todos, setTodos] = useState(loadedTodos);
   const [todo, setTodo] = useState("");
+  const [editingId, setEditingId] = useState(null); // Track the id being edited
 
   // useEffect to run once the component mounts
   useEffect(() => {
     window.localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
+
+  function getNextId() {
+    return todos.length > 0 ? todos[todos.length - 1].id + 1 : 1;
+  }
 
   function handleInputChange(e) {
     setTodo(e.target.value);
@@ -22,22 +27,40 @@ function TodoLists() {
     e.preventDefault();
 
     if (todo !== "") {
-      setTodos(() => [
-        ...todos,
-        {
-          id: todos.length + 1,
-          text: todo.trim(),
-        },
-      ]);
+      if (editingId !== null) {
+        // Editing an existing todo
+        setTodos((prevTodos) =>
+          prevTodos.map((item) =>
+            item.id === editingId ? { ...item, text: todo.trim() } : item
+          )
+        );
+        setEditingId(null);
+      } else {
+        // Adding a new todo
+        setTodos((prevTodos) => [
+          ...prevTodos,
+          {
+            id: getNextId(),
+            text: todo.trim(),
+          },
+        ]);
+      }
     }
     setTodo("");
   }
 
   function handleDelete(id) {
-    var newData = todos.filter((item) => item.id != id);
-    newData = JSON.stringify(newData);
-    localStorage.setItem("todos", newData);
-    window.location.reload();
+    const newData = todos.filter((item) => item.id !== id);
+    localStorage.setItem("todos", JSON.stringify(newData));
+    setTodos(newData);
+  }
+
+  function handleEdit(id) {
+    const todoToEdit = todos.find((item) => item.id === id);
+    if (todoToEdit) {
+      setTodo(todoToEdit.text);
+      setEditingId(id);
+    }
   }
 
   return (
@@ -52,26 +75,36 @@ function TodoLists() {
           onChange={handleInputChange}
         />
         <button className="submit-btn" onClick={handleFormSubmit}>
-          Submit
+          {editingId !== null ? "Update" : "Submit"}
         </button>
       </form>
 
       {/* create a ul to hold all of the list items */}
       <ul className="todo-list">
-        {todos.map((todo) => (
-          <li key={todo.id}>
-            <span>{todo.text}</span>
-            <button
-              className="delete-icon-btn"
-              type="button"
-              onClick={() => handleDelete(todo.id)}
-            >
-              <MdOutlineDelete />
-            </button>
+        {todos.map((todoItem) => (
+          <li key={todoItem.id}>
+            <span>{todoItem.text}</span>
+            <div>
+              <button
+                className="edit-icon-btn"
+                type="button"
+                onClick={() => handleEdit(todoItem.id)}
+              >
+                <MdEdit />
+              </button>
+              <button
+                className="delete-icon-btn"
+                type="button"
+                onClick={() => handleDelete(todoItem.id)}
+              >
+                <MdOutlineDelete />
+              </button>
+            </div>
           </li>
         ))}
       </ul>
     </div>
   );
 }
+
 export default TodoLists;
